@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Photographer Portfolio</title>
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            color: #1a1a1a;
+        }
+
+        /* Header navigation */
+        .header {
+            background: #1a1a1a;
+            color: white;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .btn-logout {
+            background: white;
+            color: #1a1a1a;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-logout:hover {
+            background: #e0e0e0;
+        }
+
+        .btn-gallery {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+            padding: 8px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-gallery:hover {
+            background: white;
+            color: #1a1a1a;
+        }
+
+        /* Main container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        /* Upload section */
+        .upload-section {
+            background: white;
+            border-radius: 12px;
+            padding: 32px;
+            margin-bottom: 32px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .section-title {
+            font-size: 24px;
+            margin-bottom: 24px;
+            font-weight: 600;
+        }
+
+        /* Tab navigation for upload methods */
+        .upload-tabs {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .tab {
+            padding: 12px 24px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 500;
+            color: #666;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+            margin-bottom: -2px;
+        }
+
+        .tab.active {
+            color: #1a1a1a;
+            border-bottom-color: #1a1a1a;
+        }
+
+        .tab:hover {
+            color: #1a1a1a;
+        }
+
+        /* Tab content */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Form styles */
+        .upload-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            font-size: 14px;
+            font-weight: 500;
+            color: #1a1a1a;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            background: #f9f9f9;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #1a1a1a;
+            background: white;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        /* File upload custom style */
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .file-input-wrapper input[type=file] {
+            position: absolute;
+            left: -9999px;
+        }
+
+        .file-input-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            border: 3px dashed #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #f9f9f9;
+            text-align: center;
+            color: #666;
+        }
+
+        .file-input-label:hover {
+            border-color: #1a1a1a;
+            background: #f0f0f0;
+        }
+
+        .file-input-label.has-file {
+            border-color: #1a1a1a;
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        /* Buttons */
+        .btn-primary {
+            background: #1a1a1a;
+            color: white;
+            border: none;
+            padding: 14px 24px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            grid-column: 1 / -1;
+        }
+
+        .btn-primary:hover {
+            background: #333;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-primary:disabled {
+            background: #999;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Gallery section */
+        .gallery-section {
+            background: white;
+            border-radius: 12px;
+            padding: 32px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Filters */
+        .filters {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .filter-select {
+            padding: 10px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            background: #f9f9f9;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: #1a1a1a;
+            background: white;
+        }
+
+        /* Image grid */
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .image-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .image-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        .image-card img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .image-info {
+            padding: 16px;
+        }
+
+        .image-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #1a1a1a;
+        }
+
+        .image-meta {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .image-tag {
+            background: #f0f0f0;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .btn-delete {
+            width: 100%;
+            background: #c33;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-delete:hover {
+            background: #a00;
+        }
+
+        /* Message notifications */
+        .message {
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message.show {
+            display: block;
+        }
+
+        .message.success {
+            background: #e8f5e9;
+            color: #2e7d32;
+            border-left: 4px solid #2e7d32;
+        }
+
+        .message.error {
+            background: #fee;
+            color: #c33;
+            border-left: 4px solid #c33;
+        }
+
+        /* Loading state */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+
+        .empty-state h3 {
+            font-size: 20px;
+            margin-bottom: 8px;
+            color: #1a1a1a;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .upload-form {
+                grid-template-columns: 1fr;
+            }
+
+            .image-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 12px;
+                text-align: center;
+            }
+        }
+
+        /* Multiple upload specific styles */
+        .selected-files {
+            margin-top: 10px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+            min-height: 50px;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+
+        .selected-files:empty::before {
+            content: "No files selected";
+            color: #6c757d;
+            font-style: italic;
+            font-size: 14px;
+        }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 12px;
+            margin: 4px 0;
+            background: white;
+            border-radius: 6px;
+            border: 1px solid #dee2e6;
+            font-size: 14px;
+        }
+
+        .file-item .file-name {
+            color: #495057;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 200px;
+        }
+
+        .file-item .file-size {
+            color: #6c757d;
+            font-size: 12px;
+        }
+
+        .upload-progress {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #28a745, #20c997);
+            width: 0%;
+            transition: width 0.3s ease;
+            border-radius: 4px;
+        }
+
+        .progress-text {
+            color: #495057;
+            font-size: 14px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header with navigation -->
+    <div class="header">
+        <h1>Admin Panel - Photographer Portfolio</h1>
+        <div class="header-actions">
+            <a href="/gallery" class="btn-gallery">View Gallery</a>
+            <button class="btn-logout" id="logoutBtn">Logout</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Upload section -->
+        <div class="upload-section">
+            <h2 class="section-title">Upload New Image</h2>
+
+            <!-- Success/Error messages -->
+            <div class="message" id="message"></div>
+
+            <!-- Tab navigation for upload methods -->
+            <div class="upload-tabs">
+                <button class="tab active" data-tab="file">Upload Single</button>
+                <button class="tab" data-tab="multiple">Upload Multiple</button>
+                <button class="tab" data-tab="url">Upload from URL</button>
+            </div>
+
+            <!-- File upload form -->
+            <div class="tab-content active" id="file-tab">
+                <form class="upload-form" id="fileUploadForm">
+                    <div class="form-group full-width">
+                        <label>Select Image</label>
+                        <div class="file-input-wrapper">
+                            <input type="file" id="imageFile" accept="image/*" required>
+                            <label for="imageFile" class="file-input-label" id="fileLabel">
+                                Click to select an image or drag and drop
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="fileCategory">Category</label>
+                        <select id="fileCategory" required>
+                            <option value="">Select category</option>
+                            <option value="FEATURED">FEATURED</option>
+                            <option value="WEDDING">WEDDING</option>
+                            <option value="PRE-WEDDING">PRE-WEDDING</option>
+                            <option value="CANDID">CANDID</option>
+                            <option value="BABY">BABY</option>
+                            <option value="BABYSHOWER">BABYSHOWER</option>
+                            <option value="HALDI">HALDI</option>
+                            <option value="HALFSAREE">HALFSAREE</option>
+                            <option value="BLACK & WHITE">BLACK & WHITE</option>
+                            <option value="COUPLE">COUPLE</option>
+                            <option value="PORTRAIT">PORTRAIT</option>
+                            <option value="EVENT">EVENT</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="fileOrientation">Orientation</label>
+                        <select id="fileOrientation" required>
+                            <option value="">Select orientation</option>
+                            <option value="portrait">Portrait</option>
+                            <option value="landscape">Landscape</option>
+                            <option value="square">Square</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn-primary" id="fileSubmitBtn">Upload Image</button>
+                </form>
+            </div>
+
+            <!-- Multiple file upload form -->
+            <div class="tab-content" id="multiple-tab">
+                <form class="upload-form" id="multipleUploadForm">
+                    <div class="form-group full-width">
+                        <label>Select Multiple Images</label>
+                        <div class="file-input-wrapper">
+                            <input type="file" id="multipleFiles" accept="image/*" multiple required>
+                            <label for="multipleFiles" class="file-input-label" id="multipleFileLabel">
+                                Click to select multiple images or drag and drop
+                            </label>
+                        </div>
+                        <small style="color: #666; font-size: 12px; margin-top: 5px; display: block;">
+                            💡 You can select up to 10 images at once. Hold Ctrl (or Cmd on Mac) to select multiple
+                            files.
+                        </small>
+                        <div class="selected-files" id="selectedFilesList"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="multipleCategory">Category (for all images)</label>
+                        <select id="multipleCategory" required>
+                            <option value="">Select category</option>
+                            <option value="FEATURED">FEATURED</option>
+                            <option value="WEDDING">WEDDING</option>
+                            <option value="PRE-WEDDING">PRE-WEDDING</option>
+                            <option value="CANDID">CANDID</option>
+                            <option value="BABY">BABY</option>
+                            <option value="BABYSHOWER">BABYSHOWER</option>
+                            <option value="HALDI">HALDI</option>
+                            <option value="HALFSAREE">HALFSAREE</option>
+                            <option value="BLACK & WHITE">BLACK & WHITE</option>
+                            <option value="COUPLE">COUPLE</option>
+                            <option value="PORTRAIT">PORTRAIT</option>
+                            <option value="EVENT">EVENT</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="multipleOrientation">Orientation (for all images)</label>
+                        <select id="multipleOrientation" required>
+                            <option value="">Select orientation</option>
+                            <option value="portrait">Portrait</option>
+                            <option value="landscape">Landscape</option>
+                            <option value="square">Square</option>
+                        </select>
+                    </div>
+
+                    <div class="upload-progress" id="uploadProgress" style="display: none;">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill"></div>
+                        </div>
+                        <div class="progress-text" id="progressText">Uploading...</div>
+                    </div>
+
+                    <button type="submit" class="btn-primary" id="multipleSubmitBtn">Upload All Images</button>
+                </form>
+            </div>
+
+            <!-- URL upload form -->
+            <div class="tab-content" id="url-tab">
+                <form class="upload-form" id="urlUploadForm">
+                    <div class="form-group full-width">
+                        <label for="imageUrl">Image URL</label>
+                        <input type="url" id="imageUrl" required placeholder="https://example.com/image.jpg">
+                        <small style="color: #666; font-size: 12px; margin-top: 5px; display: block;">
+                            ⚠️ Must be a direct image URL (ending in .jpg, .png, etc.). Google Photos/Drive links won't
+                            work.
+                        </small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="urlCategory">Category</label>
+                        <select id="urlCategory" required>
+                            <option value="">Select category</option>
+                            <option value="FEATURED">FEATURED</option>
+                            <option value="WEDDING">WEDDING</option>
+                            <option value="PRE-WEDDING">PRE-WEDDING</option>
+                            <option value="CANDID">CANDID</option>
+                            <option value="BABY">BABY</option>
+                            <option value="BABYSHOWER">BABYSHOWER</option>
+                            <option value="HALDI">HALDI</option>
+                            <option value="HALFSAREE">HALFSAREE</option>
+                            <option value="BLACK & WHITE">BLACK & WHITE</option>
+                            <option value="COUPLE">COUPLE</option>
+                            <option value="PORTRAIT">PORTRAIT</option>
+                            <option value="EVENT">EVENT</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="urlOrientation">Orientation</label>
+                        <select id="urlOrientation" required>
+                            <option value="">Select orientation</option>
+                            <option value="portrait">Portrait</option>
+                            <option value="landscape">Landscape</option>
+                            <option value="square">Square</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn-primary" id="urlSubmitBtn">Upload Image</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Gallery management section -->
+        <div class="gallery-section">
+            <h2 class="section-title">Manage Images</h2>
+
+            <!-- Filters -->
+            <div class="filters">
+                <select class="filter-select" id="categoryFilter">
+                    <option value="all">All Categories</option>
+                    <option value="FEATURED">FEATURED</option>
+                    <option value="WEDDING">WEDDING</option>
+                    <option value="PRE-WEDDING">PRE-WEDDING</option>
+                    <option value="CANDID">CANDID</option>
+                    <option value="BABY">BABY</option>
+                    <option value="BABYSHOWER">BABYSHOWER</option>
+                    <option value="HALDI">HALDI</option>
+                    <option value="HALFSAREE">HALFSAREE</option>
+                    <option value="BLACK & WHITE">BLACK & WHITE</option>
+                    <option value="COUPLE">COUPLE</option>
+                    <option value="PORTRAIT">PORTRAIT</option>
+                    <option value="EVENT">EVENT</option>
+                </select>
+
+                <select class="filter-select" id="orientationFilter">
+                    <option value="all">All Orientations</option>
+                    <option value="portrait">Portrait</option>
+                    <option value="landscape">Landscape</option>
+                    <option value="square">Square</option>
+                </select>
+            </div>
+
+            <!-- Image grid -->
+            <div class="image-grid" id="imageGrid">
+                <div class="loading">Loading images...</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab switching functionality
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs and contents
+                tabs.forEach(t => t.classList.remove('active'));
+                tabContents.forEach(content => content.classList.remove('active'));
+
+                // Add active class to clicked tab and corresponding content
+                tab.classList.add('active');
+                const tabId = tab.getAttribute('data-tab');
+                document.getElementById(`${tabId}-tab`).classList.add('active');
+            });
+        });
+
+        // File input label update
+        const fileInput = document.getElementById('imageFile');
+        const fileLabel = document.getElementById('fileLabel');
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                fileLabel.textContent = e.target.files[0].name;
+                fileLabel.classList.add('has-file');
+            } else {
+                fileLabel.textContent = 'Click to select an image or drag and drop';
+                fileLabel.classList.remove('has-file');
+            }
+        });
+
+        // Handle file upload form submission
+        const fileUploadForm = document.getElementById('fileUploadForm');
+        const fileSubmitBtn = document.getElementById('fileSubmitBtn');
+
+        fileUploadForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const formData = new FormData();
+            formData.append('image', fileInput.files[0]);
+            formData.append('title', 'Photo');
+            formData.append('description', '');
+            formData.append('category', document.getElementById('fileCategory').value);
+            formData.append('orientation', document.getElementById('fileOrientation').value);
+
+            fileSubmitBtn.disabled = true;
+            fileSubmitBtn.textContent = 'Uploading...';
+
+            try {
+                const response = await fetch('/api/images/upload-file', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showMessage('Image uploaded successfully!', 'success');
+                    fileUploadForm.reset();
+                    fileLabel.textContent = 'Click to select an image or drag and drop';
+                    fileLabel.classList.remove('has-file');
+                    loadImages();
+                } else {
+                    showMessage(data.message || 'Upload failed', 'error');
+                }
+            } catch (error) {
+                console.error('Upload error:', error);
+                showMessage('Upload failed. Please try again.', 'error');
+            } finally {
+                fileSubmitBtn.disabled = false;
+                fileSubmitBtn.textContent = 'Upload Image';
+            }
+        });
+
+        // Handle URL upload form submission
+        const urlUploadForm = document.getElementById('urlUploadForm');
+        const urlSubmitBtn = document.getElementById('urlSubmitBtn');
+
+        urlUploadForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const uploadData = {
+                imageUrl: document.getElementById('imageUrl').value,
+                title: 'Photo',
+                description: '',
+                category: document.getElementById('urlCategory').value,
+                orientation: document.getElementById('urlOrientation').value
+            };
+
+            urlSubmitBtn.disabled = true;
+            urlSubmitBtn.textContent = 'Uploading...';
+
+            try {
+                const response = await fetch('/api/images/upload-url', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(uploadData)
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showMessage('Image uploaded successfully!', 'success');
+                    urlUploadForm.reset();
+                    loadImages();
+                } else {
+                    // Check for common URL issues
+                    const imageUrl = document.getElementById('imageUrl').value;
+                    if (imageUrl.includes('photos.app.goo.gl') || imageUrl.includes('photos.google.com') || imageUrl.includes('drive.google.com')) {
+                        showMessage('❌ Google Photos/Drive links are not supported. Please download the image and use "Upload File" instead, or use a direct image URL (ending in .jpg, .png, etc.)', 'error');
+                    } else {
+                        showMessage(data.message || 'Upload failed', 'error');
+                    }
+                }
+            } catch (error) {
+                console.error('Upload error:', error);
+                const imageUrl = document.getElementById('imageUrl').value;
+                let errorMessage = 'Upload failed. Please try again.';
+
+                // Check for Google Photos or similar sharing links
+                if (imageUrl.includes('photos.app.goo.gl') || imageUrl.includes('photos.google.com') || imageUrl.includes('drive.google.com')) {
+                    errorMessage = '❌ Google Photos/Drive links are not supported. Please download the image and use "Upload File" instead, or use a direct image URL (ending in .jpg, .png, etc.)';
+                }
+
+                showMessage(errorMessage, 'error');
+            } finally {
+                urlSubmitBtn.disabled = false;
+                urlSubmitBtn.textContent = 'Upload Image';
+            }
+        });
+
+        // Multiple file upload functionality
+        const multipleFilesInput = document.getElementById('multipleFiles');
+        const multipleFileLabel = document.getElementById('multipleFileLabel');
+        const selectedFilesList = document.getElementById('selectedFilesList');
+        const multipleUploadForm = document.getElementById('multipleUploadForm');
+        const multipleSubmitBtn = document.getElementById('multipleSubmitBtn');
+        const uploadProgress = document.getElementById('uploadProgress');
+        const progressFill = document.getElementById('progressFill');
+        const progressText = document.getElementById('progressText');
+
+        // Handle multiple file selection
+        multipleFilesInput.addEventListener('change', (e) => {
+            const files = Array.from(e.target.files);
+            displaySelectedFiles(files);
+
+            if (files.length > 0) {
+                multipleFileLabel.textContent = `${files.length} image(s) selected`;
+                multipleFileLabel.classList.add('has-file');
+            } else {
+                multipleFileLabel.textContent = 'Click to select multiple images or drag and drop';
+                multipleFileLabel.classList.remove('has-file');
+            }
+        });
+
+        // Display selected files
+        function displaySelectedFiles(files) {
+            selectedFilesList.innerHTML = '';
+
+            files.forEach((file, index) => {
+                const fileItem = document.createElement('div');
+                fileItem.className = 'file-item';
+                fileItem.innerHTML = `
+                    <div>
+                        <div class="file-name">${file.name}</div>
+                        <div class="file-size">${formatFileSize(file.size)}</div>
+                    </div>
+                `;
+                selectedFilesList.appendChild(fileItem);
+            });
+        }
+
+        // Format file size
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        // Handle multiple file upload form submission
+        multipleUploadForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const files = multipleFilesInput.files;
+            if (files.length === 0) {
+                showMessage('Please select at least one image', 'error');
+                return;
+            }
+
+            if (files.length > 10) {
+                showMessage('Please select no more than 10 images at once', 'error');
+                return;
+            }
+
+            const category = document.getElementById('multipleCategory').value;
+            const orientation = document.getElementById('multipleOrientation').value;
+
+            const formData = new FormData();
+
+            // Add all files
+            for (let i = 0; i < files.length; i++) {
+                formData.append('images', files[i]);
+            }
+
+            formData.append('category', category);
+            formData.append('orientation', orientation);
+
+            // Show progress
+            uploadProgress.style.display = 'block';
+            multipleSubmitBtn.disabled = true;
+            multipleSubmitBtn.textContent = 'Uploading...';
+            progressText.textContent = `Uploading ${files.length} images...`;
+
+            try {
+                const response = await fetch('/api/images/upload-multiple', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    progressFill.style.width = '100%';
+                    progressText.textContent = `Successfully uploaded ${data.totalUploaded} images!`;
+
+                    setTimeout(() => {
+                        showMessage(`${data.totalUploaded} images uploaded successfully!`, 'success');
+                        multipleUploadForm.reset();
+                        selectedFilesList.innerHTML = '';
+                        multipleFileLabel.textContent = 'Click to select multiple images or drag and drop';
+                        multipleFileLabel.classList.remove('has-file');
+                        uploadProgress.style.display = 'none';
+                        progressFill.style.width = '0%';
+                        loadImages();
+                    }, 1500);
+                } else {
+                    showMessage(data.message || 'Upload failed', 'error');
+                    uploadProgress.style.display = 'none';
+                }
+            } catch (error) {
+                console.error('Multiple upload error:', error);
+                showMessage('Upload failed. Please try again.', 'error');
+                uploadProgress.style.display = 'none';
+            } finally {
+                multipleSubmitBtn.disabled = false;
+                multipleSubmitBtn.textContent = 'Upload All Images';
+            }
+        });
+
+        // Load and display images
+        async function loadImages() {
+            const imageGrid = document.getElementById('imageGrid');
+            const category = document.getElementById('categoryFilter').value;
+            const orientation = document.getElementById('orientationFilter').value;
+
+            imageGrid.innerHTML = '<div class="loading">Loading images...</div>';
+
+            try {
+                const params = new URLSearchParams();
+                if (category !== 'all') params.append('category', category);
+                if (orientation !== 'all') params.append('orientation', orientation);
+
+                const response = await fetch(`/api/images?${params}`);
+                const data = await response.json();
+
+                if (data.success && data.images.length > 0) {
+                    imageGrid.innerHTML = data.images.map(image => `
+            <div class="image-card">
+              <img src="${image.imageUrl}" alt="Photo">
+              <div class="image-info">
+                <div class="image-title">${image.category}</div>
+                <div class="image-meta">
+                  <span class="image-tag">${image.orientation}</span>
+                </div>
+                <button class="btn-delete" onclick="deleteImage('${image._id}')">Delete</button>
+              </div>
+            </div>
+          `).join('');
+                } else {
+                    imageGrid.innerHTML = `
+            <div class="empty-state">
+              <h3>No images found</h3>
+              <p>Upload your first image to get started</p>
+            </div>
+          `;
+                }
+            } catch (error) {
+                console.error('Error loading images:', error);
+                imageGrid.innerHTML = '<div class="empty-state">Error loading images</div>';
+            }
+        }
+
+        // Delete image function
+        async function deleteImage(imageId) {
+            if (!confirm('Are you sure you want to delete this image?')) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/images/${imageId}`, {
+                    method: 'DELETE'
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showMessage('Image deleted successfully!', 'success');
+                    loadImages();
+                } else {
+                    showMessage(data.message || 'Delete failed', 'error');
+                }
+            } catch (error) {
+                console.error('Delete error:', error);
+                showMessage('Delete failed. Please try again.', 'error');
+            }
+        }
+
+        // Show notification message
+        function showMessage(text, type) {
+            const message = document.getElementById('message');
+            message.textContent = text;
+            message.className = `message ${type} show`;
+
+            setTimeout(() => {
+                message.classList.remove('show');
+            }, 5000);
+        }
+
+        // Filter change listeners
+        document.getElementById('categoryFilter').addEventListener('change', loadImages);
+        document.getElementById('orientationFilter').addEventListener('change', loadImages);
+
+        // Logout functionality
+        document.getElementById('logoutBtn').addEventListener('click', async () => {
+            try {
+                const response = await fetch('/api/auth/logout', {
+                    method: 'POST'
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    window.location.href = '/login';
+                }
+            } catch (error) {
+                console.error('Logout error:', error);
+            }
+        });
+
+        // Load images on page load
+        loadImages();
+    </script>
+</body>
+
+</html>

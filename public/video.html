@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Gallery Grid</title>
+    <link rel="stylesheet" href="video.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <h1>Niharika Visions</h1>
+            </div>
+            <nav class="nav">
+                <ul class="nav-list">
+                    <li><a href="/" class="nav-link">Home</a></li>
+                    <li><a href="/#about" class="nav-link">About</a></li>
+                    <li><a href="/#services" class="nav-link">Services</a></li>
+                    <li><a href="/gallery" class="nav-link">Gallery</a></li>
+                    <li><a href="/video-gallery" class="nav-link active">Video Gallery</a></li>
+                    <li><a href="/#filmCollection" class="nav-link">Film Collection</a></li>
+                    <li><a href="/#contact" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-header">
+            <div class="logo">
+                <h1>Niharika Visions</h1>
+            </div>
+            <button class="close-btn" id="closeBtn">×</button>
+        </div>
+        <nav class="mobile-nav">
+            <ul class="mobile-nav-list">
+                <li><a href="/" class="mobile-nav-link">Home <span>→</span></a></li>
+                <li><a href="/#about" class="mobile-nav-link">About <span>→</span></a></li>
+                <li><a href="/#services" class="mobile-nav-link">Services <span>→</span></a></li>
+                <li><a href="/gallery" class="mobile-nav-link">Gallery <span>→</span></a></li>
+                <li><a href="/video-gallery" class="mobile-nav-link active">Video Gallery <span>→</span></a></li>
+                <li><a href="/#filmCollection" class="mobile-nav-link">Film Collection <span>→</span></a></li>
+                <li><a href="/#contact" class="mobile-nav-link">Contact <span>→</span></a></li>
+            </ul>
+            <li><a href="index.html#services" class="mobile-nav-link">Services <span>→</span></a></li>
+            <li><a href="gallery.html" class="mobile-nav-link active">Gallery <span>→</span></a></li>
+            <li><a href="video.html" class="mobile-nav-link">Video Gallery <span>→</span></a></li>
+            <li><a href="index.html#filmCollection" class="mobile-nav-link">Film Collection <span>→</span></a></li>
+            <li><a href="index.html#contact" class="mobile-nav-link">Contact <span>→</span></a></li>
+            </ul>
+        </nav>
+        <div class="mobile-social">
+            <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+        </div>
+    </div>
+
+
+
+
+    <div class="vg-main-container">
+        <header class="vg-top-header">
+            <h1 class="vg-main-title">Video Gallery</h1>
+        </header>
+
+        <main class="vg-gallery-wrapper">
+            <div class="vg-grid-layout" id="vgGalleryGrid">
+                <!-- Videos will be dynamically inserted here -->
+            </div>
+        </main>
+    </div>
+
+    <!-- YouTube Modal -->
+    <div class="vg-modal-backdrop" id="vgYoutubeModal">
+        <div class="vg-modal-box">
+            <button class="vg-close-btn" id="vgCloseModal">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+            <div class="vg-iframe-wrapper">
+                <iframe id="vgYoutubeFrame" src="" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- <script>
+        class VGVideoGalleryManager {
+            constructor() {
+                this.galleryGrid = document.getElementById('vgGalleryGrid');
+                this.modalBackdrop = document.getElementById('vgYoutubeModal');
+                this.youtubeFrame = document.getElementById('vgYoutubeFrame');
+                this.closeModalBtn = document.getElementById('vgCloseModal');
+
+                this.videoData = [
+                    {
+                        id: '1',
+                        type: 'video',
+                        src: 'assets/videos/vid 1.mp4',
+                        title: 'Creative Workspace',
+                        aspectRatio: 'vertical'
+                    },
+                    {
+                        id: '2',
+                        type: 'video',
+                        src: 'assets/videos/vid2.mp4',
+                        title: 'Morning Coffee',
+                        aspectRatio: 'vertical'
+                    },
+                    {
+                        id: '3',
+                        type: 'youtube',
+                        youtubeId: '',
+                        title: 'How to Create Collections',
+                        aspectRatio: 'horizontal'
+                    },
+                    {
+                        id: '4',
+                        type: 'video',
+                        src: 'assets/videos/vid3.mp4',
+                        title: 'Evening Ambiance',
+                        aspectRatio: 'square'
+                    },
+                    {
+                        id: '5',
+                        type: 'video',
+                        src: 'assets/videos/vid4.mp4',
+                        title: 'Ocean Adventure',
+                        aspectRatio: 'horizontal'
+                    },
+                    {
+                        id: '6',
+                        type: 'video',
+                        src: 'assets/videos/vid5.mp4',
+                        title: 'Road Trip',
+                        aspectRatio: 'vertical'
+                    },
+                    {
+                        id: '7',
+                        type: 'video',
+                        src: 'assets/videos/vid6.mp4',
+                        title: 'Industrial Views',
+                        aspectRatio: 'square'
+                    },
+                    {
+                        id: '8',
+                        type: 'youtube',
+                        youtubeId: 'M7lc1UVf-VE',
+                        title: 'Tutorial Series',
+                        aspectRatio: 'wide'
+                    },
+                    {
+                        id: '9',
+                        type: 'video',
+                        src: 'assets/videos/vid7.mp4',
+                        title: 'Urban Exploration',
+                        aspectRatio: 'vertical'
+                    }
+                ];
+
+                this.init();
+            }
+
+            init() {
+                this.renderVideos();
+                this.setupEventListeners();
+            }
+
+            renderVideos() {
+                this.galleryGrid.innerHTML = '';
+
+                this.videoData.forEach(video => {
+                    const videoElement = this.createVideoElement(video);
+                    this.galleryGrid.appendChild(videoElement);
+                });
+            }
+
+            createVideoElement(video) {
+                const mediaCard = document.createElement('div');
+                mediaCard.className = `vg-media-card vg-aspect-${video.aspectRatio}`;
+                mediaCard.dataset.vgVideoId = video.id;
+
+                if (video.type === 'youtube') {
+                    mediaCard.innerHTML = `
+                <div class="vg-content-wrapper">
+                    <div style="width:100%;height:100%;background:#000;display:flex;align-items:center;justify-content:center;color:white;">
+                        YouTube Video
+                    </div>
+                    <div class="vg-yt-badge">YouTube</div>
+                    <div class="vg-hover-overlay">
+                        <button class="vg-primary-btn">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="vg-media-label">${video.title}</div>
+                </div>
+            `;
+
+                    mediaCard.addEventListener('click', () => this.openYouTubeModal(video));
+                } else {
+                    mediaCard.innerHTML = `
+                <div class="vg-content-wrapper">
+                    <video class="vg-video-player" preload="metadata" muted>
+                        <source src="${video.src}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <div class="vg-hover-overlay">
+                        <div class="vg-button-group">
+                            <button class="vg-action-btn vg-playpause-btn">
+                                <svg class="vg-play-svg" viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                                <svg class="vg-pause-svg" viewBox="0 0 24 24" style="display: none;">
+                                    <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
+                                </svg>
+                            </button>
+                            <button class="vg-action-btn vg-volume-btn">
+                                <svg class="vg-volume-on-svg" viewBox="0 0 24 24">
+                                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                                </svg>
+                                <svg class="vg-volume-off-svg" viewBox="0 0 24 24" style="display: none;">
+                                    <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="vg-media-label">${video.title}</div>
+                </div>
+            `;
+
+                    const videoEl = mediaCard.querySelector('.vg-video-player');
+                    const playPauseBtn = mediaCard.querySelector('.vg-playpause-btn');
+                    const volumeBtn = mediaCard.querySelector('.vg-volume-btn');
+                    const playSvg = playPauseBtn.querySelector('.vg-play-svg');
+                    const pauseSvg = playPauseBtn.querySelector('.vg-pause-svg');
+                    const volumeOnSvg = volumeBtn.querySelector('.vg-volume-on-svg');
+                    const volumeOffSvg = volumeBtn.querySelector('.vg-volume-off-svg');
+
+                    // Handle video loading
+                    videoEl.addEventListener('loadeddata', () => {
+                        mediaCard.classList.remove('vg-loading-state');
+                    });
+
+                    // Play/Pause functionality
+                    playPauseBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        this.toggleVideo(videoEl, playSvg, pauseSvg);
+                    });
+
+                    // Volume/Mute functionality
+                    volumeBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        this.toggleMute(videoEl, volumeOnSvg, volumeOffSvg);
+                    });
+
+                    // Video ended event
+                    videoEl.addEventListener('ended', () => {
+                        playSvg.style.display = 'block';
+                        pauseSvg.style.display = 'none';
+                    });
+                }
+
+                return mediaCard;
+            }
+
+            toggleVideo(videoEl, playSvg, pauseSvg) {
+                if (videoEl.paused) {
+                    // Pause all other videos
+                    document.querySelectorAll('.vg-video-player').forEach(v => {
+                        if (v !== videoEl && !v.paused) {
+                            v.pause();
+                            // Update their icons
+                            const item = v.closest('.vg-media-card');
+                            const playIconOther = item.querySelector('.vg-play-svg');
+                            const pauseIconOther = item.querySelector('.vg-pause-svg');
+                            playIconOther.style.display = 'block';
+                            pauseIconOther.style.display = 'none';
+                        }
+                    });
+
+                    // Play this video
+                    videoEl.play();
+                    playSvg.style.display = 'none';
+                    pauseSvg.style.display = 'block';
+                } else {
+                    videoEl.pause();
+                    playSvg.style.display = 'block';
+                    pauseSvg.style.display = 'none';
+                }
+            }
+
+            toggleMute(videoEl, volumeOnSvg, volumeOffSvg) {
+                videoEl.muted = !videoEl.muted;
+
+                if (videoEl.muted) {
+                    volumeOnSvg.style.display = 'none';
+                    volumeOffSvg.style.display = 'block';
+                } else {
+                    volumeOnSvg.style.display = 'block';
+                    volumeOffSvg.style.display = 'none';
+                }
+            }
+
+            openYouTubeModal(video) {
+                const embedUrl = `https://www.youtube.com/embed/${video.youtubeId}?autoplay=1&rel=0`;
+                this.youtubeFrame.src = embedUrl;
+                this.modalBackdrop.classList.add('vg-modal-active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            closeYouTubeModal() {
+                this.modalBackdrop.classList.remove('vg-modal-active');
+                this.youtubeFrame.src = '';
+                document.body.style.overflow = 'auto';
+            }
+
+            setupEventListeners() {
+                // Close modal events
+                this.closeModalBtn.addEventListener('click', () => this.closeYouTubeModal());
+
+                this.modalBackdrop.addEventListener('click', (e) => {
+                    if (e.target === this.modalBackdrop) {
+                        this.closeYouTubeModal();
+                    }
+                });
+
+                // Keyboard events
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && this.modalBackdrop.classList.contains('vg-modal-active')) {
+                        this.closeYouTubeModal();
+                    }
+                });
+
+                // Handle window resize
+                window.addEventListener('resize', () => {
+                    // Pause all videos on resize to prevent layout issues
+                    document.querySelectorAll('.vg-video-player').forEach(video => {
+                        if (!video.paused) {
+                            video.pause();
+                            const item = video.closest('.vg-media-card');
+                            const playSvg = item.querySelector('.vg-play-svg');
+                            const pauseSvg = item.querySelector('.vg-pause-svg');
+                            playSvg.style.display = 'block';
+                            pauseSvg.style.display = 'none';
+                        }
+                    });
+                });
+
+                // Intersection Observer for lazy loading
+                if ('IntersectionObserver' in window) {
+                    const videoObserver = new IntersectionObserver((entries) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                const videoEl = entry.target.querySelector('.vg-video-player');
+                                if (videoEl && !videoEl.dataset.vgLoaded) {
+                                    videoEl.load();
+                                    videoEl.dataset.vgLoaded = 'true';
+                                }
+                            }
+                        });
+                    }, { threshold: 0.1 });
+
+                    // Observe all video items
+                    document.querySelectorAll('.vg-media-card').forEach(item => {
+                        videoObserver.observe(item);
+                    });
+                }
+            }
+        }
+
+        // Initialize the gallery when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new VGVideoGalleryManager();
+        });
+    </script> -->
+    <script src="video.js"></script>
+    <!-- slider script code and navbar -->
+    <script>
+        // Ensure DOM is fully loaded before initializing functionality
+        document.addEventListener('DOMContentLoaded', function () {
+            console.log('DOM loaded, initializing scripts...');
+
+            // Mobile Menu Functionality
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const mobileMenu = document.getElementById('mobileMenu');
+            const closeBtn = document.getElementById('closeBtn');
+
+            // Hero Slider Functionality
+            let currentSlide = 0;
+            const slides = document.querySelectorAll('.slide');
+            const navDots = document.querySelectorAll('.nav-dot');
+            const currentSlideSpan = document.querySelector('.current-slide');
+            const totalSlides = slides.length;
+
+            // Debug logging
+            console.log('Mobile menu elements:', {
+                mobileMenuBtn: !!mobileMenuBtn,
+                mobileMenu: !!mobileMenu,
+                closeBtn: !!closeBtn
+            });
+
+            console.log('Slider elements:', {
+                slides: slides.length,
+                navDots: navDots.length,
+                currentSlideSpan: !!currentSlideSpan
+            });
+
+            function showSlide(index) {
+                // Remove active class from all slides and dots
+                slides.forEach(slide => slide.classList.remove('active'));
+                navDots.forEach(dot => dot.classList.remove('active'));
+
+                // Add active class to current slide and dot
+                slides[index].classList.add('active');
+                navDots[index].classList.add('active');
+
+                // Update counter
+                if (currentSlideSpan) {
+                    currentSlideSpan.textContent = String(index + 1).padStart(2, '0');
+                }
+            }
+
+            function nextSlide() {
+                currentSlide = (currentSlide + 1) % totalSlides;
+                showSlide(currentSlide);
+            }
+
+            function prevSlide() {
+                currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+                showSlide(currentSlide);
+            }
+
+            // Initialize slider if elements exist
+            if (slides.length > 0 && navDots.length > 0) {
+                // Auto-advance slides
+                setInterval(nextSlide, 5000);
+
+                // Navigation dots click handlers
+                navDots.forEach((dot, index) => {
+                    dot.addEventListener('click', () => {
+                        currentSlide = index;
+                        showSlide(currentSlide);
+                    });
+                });
+
+                // Keyboard navigation for slider
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'ArrowLeft') {
+                        prevSlide();
+                    } else if (e.key === 'ArrowRight') {
+                        nextSlide();
+                    }
+                });
+            }
+
+            // Mobile Menu Event Listeners
+            if (mobileMenuBtn && mobileMenu && closeBtn) {
+                // Open mobile menu
+                mobileMenuBtn.addEventListener('click', () => {
+                    console.log('Mobile menu button clicked');
+                    mobileMenu.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                });
+
+                // Close mobile menu
+                closeBtn.addEventListener('click', () => {
+                    console.log('Close button clicked');
+                    mobileMenu.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                });
+
+                // Close mobile menu when clicking on a link (only for internal anchors)
+                const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+                mobileNavLinks.forEach(link => {
+                    link.addEventListener('click', (e) => {
+                        const href = link.getAttribute('href');
+                        // Only close menu and prevent default for internal anchor links
+                        if (href && href.startsWith('#')) {
+                            mobileMenu.classList.remove('active');
+                            document.body.style.overflow = 'auto';
+                        }
+                        // For external links (.html files), let them navigate normally - don't prevent default
+                    });
+                });
+
+                // Close mobile menu when clicking outside
+                mobileMenu.addEventListener('click', (e) => {
+                    if (e.target === mobileMenu) {
+                        mobileMenu.classList.remove('active');
+                        document.body.style.overflow = 'auto';
+                    }
+                });
+            } else {
+                console.error('Mobile menu elements not found:', {
+                    mobileMenuBtn: !!mobileMenuBtn,
+                    mobileMenu: !!mobileMenu,
+                    closeBtn: !!closeBtn
+                });
+            }
+
+            // Navigation active state
+            const sections = document.querySelectorAll('section[id], div[id]');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            // Function to set active link based on scroll position
+            function setActiveLink() {
+                let scrollPosition = window.scrollY + 100; // Offset for header height
+
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.offsetHeight;
+                    const sectionId = section.getAttribute('id');
+
+                    if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                        // Remove active class from all links
+                        navLinks.forEach(link => link.classList.remove('active'));
+
+                        // Add active class to corresponding link
+                        const activeLink = document.querySelector(`.nav-link[href="#${sectionId}"]`);
+                        if (activeLink) {
+                            activeLink.classList.add('active');
+                        }
+                    }
+                });
+            }
+
+            // Add scroll event listener
+            window.addEventListener('scroll', setActiveLink);
+
+            // Set active link on page load
+            setActiveLink();
+
+            // Handle hash change (for when links are clicked)
+            window.addEventListener('hashchange', function () {
+                setActiveLink();
+            });
+
+            // SMOOTH SCROLLING - Only for internal anchor links (#)
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    // Only handle internal anchor links
+                    const targetId = this.getAttribute('href');
+
+                    // Skip if it's just "#" or empty
+                    if (!targetId || targetId === '#') return;
+
+                    // Check if target element exists
+                    const targetElement = document.querySelector(targetId);
+                    if (!targetElement) return;
+
+                    // Prevent default and scroll smoothly
+                    e.preventDefault();
+
+                    // Calculate position with header offset
+                    const headerOffset = 100;
+                    const elementPosition = targetElement.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            // Gallery item hover effects
+            const galleryItems = document.querySelectorAll('.gallery-item');
+            galleryItems.forEach(item => {
+                item.addEventListener('mouseenter', () => {
+                    item.style.zIndex = '10';
+                });
+
+                item.addEventListener('mouseleave', () => {
+                    item.style.zIndex = '1';
+                });
+            });
+
+            // Floating action button interactions
+            const fabs = document.querySelectorAll('.fab');
+            fabs.forEach(fab => {
+                fab.addEventListener('click', (e) => {
+                    e.preventDefault();
+
+                    // Add ripple effect
+                    const ripple = document.createElement('span');
+                    const rect = fab.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    const x = e.clientX - rect.left - size / 2;
+                    const y = e.clientY - rect.top - size / 2;
+
+                    ripple.style.width = ripple.style.height = size + 'px';
+                    ripple.style.left = x + 'px';
+                    ripple.style.top = y + 'px';
+                    ripple.classList.add('ripple');
+
+                    fab.appendChild(ripple);
+
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                });
+            });
+
+            // Add ripple effect styles
+            const style = document.createElement('style');
+            style.textContent = `
+        .fab {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(0);
+            animation: ripple-animation 0.6s linear;
+            pointer-events: none;
+        }
+        
+        @keyframes ripple-animation {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+    `;
+            document.head.appendChild(style);
+
+            // Intersection Observer for animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            // Observe gallery items for scroll animations
+            galleryItems.forEach(item => {
+                item.style.opacity = '0';
+                item.style.transform = 'translateY(30px)';
+                item.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(item);
+            });
+
+            // Keyboard navigation for mobile menu escape
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && mobileMenu && mobileMenu.classList.contains('active')) {
+                    mobileMenu.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+
+            // Preload images for better performance
+            const imageUrls = [
+                'https://images.pexels.com/photos/1040881/pexels-photo-1040881.jpeg?auto=compress&cs=tinysrgb&w=800',
+                'https://images.pexels.com/photos/1040880/pexels-photo-1040880.jpeg?auto=compress&cs=tinysrgb&w=600',
+                'https://images.pexels.com/photos/1040879/pexels-photo-1040879.jpeg?auto=compress&cs=tinysrgb&w=600'
+            ];
+
+            imageUrls.forEach(url => {
+                const img = new Image();
+                img.src = url;
+            });
+
+            console.log('All scripts initialized successfully');
+        });
+
+        // Performance optimization: Debounce function
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        // Window load event for final optimizations
+        window.addEventListener('load', () => {
+            document.body.classList.add('loaded');
+            console.log('Page fully loaded');
+        });
+    </script>
+</body>
+
+</html>

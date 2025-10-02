@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Niharika Visions - Photography Gallery</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="gallery.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <h1>Niharika Visions</h1>
+            </div>
+            <nav class="nav">
+                <ul class="nav-list">
+                    <li><a href="/" class="nav-link">Home</a></li>
+                    <li><a href="/#about" class="nav-link">About</a></li>
+                    <li><a href="/#services" class="nav-link">Services</a></li>
+                    <li><a href="/gallery" class="nav-link active">Gallery</a></li>
+                    <li><a href="/video-gallery" class="nav-link">Video Gallery</a></li>
+                    <li><a href="/#filmCollection" class="nav-link">Film Collection</a></li>
+                    <li><a href="/#contact" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-header">
+            <div class="logo">
+                <h1>Niharika Visions</h1>
+            </div>
+            <button class="close-btn" id="closeBtn">×</button>
+        </div>
+        <nav class="mobile-nav">
+            <ul class="mobile-nav-list">
+                <li><a href="/" class="mobile-nav-link">Home <span>→</span></a></li>
+                <li><a href="/#about" class="mobile-nav-link">About <span>→</span></a></li>
+                <li><a href="/#services" class="mobile-nav-link">Services <span>→</span></a></li>
+                <li><a href="/gallery" class="mobile-nav-link active">Gallery <span>→</span></a></li>
+                <li><a href="/video-gallery" class="mobile-nav-link">Video Gallery <span>→</span></a></li>
+                <li><a href="/#filmCollection" class="mobile-nav-link">Film Collection <span>→</span></a></li>
+                <li><a href="/#contact" class="mobile-nav-link">Contact <span>→</span></a></li>
+            </ul>
+        </nav>
+        <div class="mobile-social">
+            <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+        </div>
+    </div>
+
+    <!-- Main Gallery Container -->
+    <div class="photo-gallery-container">
+        <!-- Header Section -->
+        <section class="gallery-header-area">
+            <div class="intro-text-wrapper">
+                <p class="studio-intro-paragraph">
+                    Welcome to Niharika Visions Photography Gallery. Explore our collection of stunning moments captured
+                    with creativity and professional expertise across weddings, celebrations, and special events.
+                </p>
+            </div>
+        </section>
+
+        <!-- Filter Navigation -->
+        <nav class="filter-menu-section">
+            <div class="category-filter-wrapper" id="categoryFilters">
+                <!-- Filters will be dynamically loaded -->
+            </div>
+        </nav>
+
+        <!-- Image Gallery Grid -->
+        <main class="gallery-grid-container">
+            <div class="masonry-grid-layout" id="photoGalleryGrid">
+                <!-- Images will be dynamically inserted here -->
+            </div>
+
+            <!-- Loading indicator -->
+            <div class="loading-indicator show" id="loadingText">
+                <span class="loading-text">LOADING</span>
+            </div>
+
+            <!-- Empty state -->
+            <div class="empty-state" id="emptyState" style="display: none;">
+                <h3>No images found</h3>
+                <p>Check back soon for amazing photography</p>
+            </div>
+        </main>
+
+        <!-- Lightbox Modal -->
+        <div class="lightbox-overlay" id="lightboxModal">
+            <div class="lightbox-content-wrapper">
+                <button class="lightbox-close-btn" id="closeLightbox">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                    </svg>
+                </button>
+
+                <button class="lightbox-nav-btn prev-btn" id="prevImage">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg>
+                </button>
+
+                <button class="lightbox-nav-btn next-btn" id="nextImage">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg>
+                </button>
+
+                <div class="main-image-container">
+                    <img id="lightboxMainImage" src="" alt="Gallery Image" class="lightbox-main-img">
+                </div>
+
+                <div class="image-counter">
+                    <span id="imageCounter">1 / 1</span>
+                </div>
+
+                <div class="thumbnail-navigation">
+                    <div class="thumbnail-strip" id="thumbnailStrip"></div>
+                </div>
+
+                <button class="grid-toggle-btn grid-hidden" id="gridToggle" title="Show thumbnails">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                        <rect x="3" y="3" width="7" height="7" stroke="currentColor" stroke-width="2" />
+                        <rect x="14" y="3" width="7" height="7" stroke="currentColor" stroke-width="2" />
+                        <rect x="14" y="14" width="7" height="7" stroke="currentColor" stroke-width="2" />
+                        <rect x="3" y="14" width="7" height="7" stroke="currentColor" stroke-width="2" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let allImages = [];
+        let filteredImages = [];
+        let currentImageIndex = 0;
+        let lightboxOpen = false;
+        let currentCategory = 'FEATURED';
+
+        // Available categories
+        const categories = [
+            'FEATURED', 'WEDDING', 'PRE-WEDDING', 'CANDID', 'BABY',
+            'BABYSHOWER', 'HALDI', 'HALFSAREE', 'BLACK & WHITE',
+            'COUPLE', 'PORTRAIT', 'EVENT'
+        ];
+
+        // DOM elements
+        const gridContainer = document.getElementById('photoGalleryGrid');
+        const lightboxModal = document.getElementById('lightboxModal');
+        const lightboxMainImage = document.getElementById('lightboxMainImage');
+        const imageCounter = document.getElementById('imageCounter');
+        const thumbnailStrip = document.getElementById('thumbnailStrip');
+        const loadingIndicator = document.getElementById('loadingText');
+        const emptyState = document.getElementById('emptyState');
+        const categoryFilters = document.getElementById('categoryFilters');
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const closeBtn = document.getElementById('closeBtn');
+
+        // Initialize gallery
+        document.addEventListener('DOMContentLoaded', function () {
+            setupEventListeners();
+            loadCategoryFilters();
+            loadGallery();
+        });
+
+        // Load category filters
+        function loadCategoryFilters() {
+            categoryFilters.innerHTML = categories.map(cat =>
+                `<button class="filter-btn ${cat === 'FEATURED' ? 'active-filter' : ''}" data-category="${cat}">${cat}</button>`
+            ).join('');
+
+            // Add event listeners to filter buttons
+            document.querySelectorAll('.filter-btn').forEach(button => {
+                button.addEventListener('click', function () {
+                    document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active-filter'));
+                    this.classList.add('active-filter');
+                    currentCategory = this.getAttribute('data-category');
+                    filterAndRenderImages();
+                });
+            });
+        }
+
+        // Load images from API
+        async function loadGallery() {
+            showLoading();
+
+            try {
+                const response = await fetch('/api/images');
+
+                // Check if response is ok
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                // Check content type before parsing
+                const contentType = response.headers.get('content-type');
+                if (!contentType || !contentType.includes('application/json')) {
+                    throw new Error('Server returned non-JSON response. Check if API endpoint exists.');
+                }
+
+                const data = await response.json();
+
+                if (data.success && data.images && data.images.length > 0) {
+                    allImages = data.images;
+                    filterAndRenderImages();
+                } else {
+                    hideLoading();
+                    showEmptyState();
+                }
+            } catch (error) {
+                console.error('Error loading gallery:', error);
+                hideLoading();
+
+                // Show more specific error message
+                emptyState.innerHTML = `
+                    <h3>Unable to load gallery</h3>
+                    <p>API Error: ${error.message}</p>
+                    <p style="font-size: 14px; color: #666; margin-top: 10px;">
+                        Please ensure the API endpoint '/api/images' is correctly configured and returns JSON data.
+                    </p>
+                `;
+                emptyState.style.display = 'block';
+            }
+        }
+
+        // Filter and render images
+        function filterAndRenderImages() {
+            if (currentCategory === 'FEATURED') {
+                filteredImages = allImages;
+            } else {
+                filteredImages = allImages.filter(img =>
+                    img.category && img.category.toUpperCase() === currentCategory
+                );
+            }
+
+            renderGallery();
+        }
+
+        // Render gallery
+        function renderGallery() {
+            gridContainer.innerHTML = '';
+
+            if (filteredImages.length === 0) {
+                hideLoading();
+                showEmptyState();
+                return;
+            }
+
+            hideEmptyState();
+
+            filteredImages.forEach((image, index) => {
+                const imageElement = createImageElement(image, index);
+                gridContainer.appendChild(imageElement);
+            });
+
+            hideLoading();
+        }
+
+        // Create image element
+        function createImageElement(image, index) {
+            const imageItem = document.createElement('div');
+            const orientation = image.orientation || 'square';
+            imageItem.className = `gallery-image-item ${orientation}`;
+            imageItem.style.animationDelay = `${(index % 9) * 0.1}s`;
+
+            const img = document.createElement('img');
+            img.src = image.imageUrl;
+            img.alt = image.title || 'Gallery image';
+            img.className = 'gallery-item-img';
+            img.loading = 'lazy';
+
+            imageItem.addEventListener('click', () => openLightbox(index));
+            imageItem.appendChild(img);
+
+            return imageItem;
+        }
+
+        // Show/hide loading
+        function showLoading() {
+            loadingIndicator.classList.add('show');
+            gridContainer.style.display = 'none';
+        }
+
+        function hideLoading() {
+            loadingIndicator.classList.remove('show');
+            gridContainer.style.display = 'grid';
+        }
+
+        // Show/hide empty state
+        function showEmptyState() {
+            emptyState.style.display = 'block';
+            gridContainer.style.display = 'none';
+        }
+
+        function hideEmptyState() {
+            emptyState.style.display = 'none';
+        }
+
+        // Event Listeners Setup
+        function setupEventListeners() {
+            // Mobile menu
+            if (mobileMenuBtn) {
+                mobileMenuBtn.addEventListener('click', () => {
+                    mobileMenu.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                });
+            }
+
+            if (closeBtn) {
+                closeBtn.addEventListener('click', () => {
+                    mobileMenu.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                });
+            }
+
+            // Lightbox controls
+            document.getElementById('closeLightbox').addEventListener('click', closeLightbox);
+            document.getElementById('prevImage').addEventListener('click', () => navigateImage('prev'));
+            document.getElementById('nextImage').addEventListener('click', () => navigateImage('next'));
+
+            lightboxModal.addEventListener('click', function (e) {
+                if (e.target === this) closeLightbox();
+            });
+
+            // Keyboard navigation
+            document.addEventListener('keydown', function (e) {
+                if (!lightboxOpen) return;
+                if (e.key === 'Escape') closeLightbox();
+                if (e.key === 'ArrowLeft') navigateImage('prev');
+                if (e.key === 'ArrowRight') navigateImage('next');
+            });
+
+            // Grid toggle
+            const gridToggleBtn = document.getElementById('gridToggle');
+            const thumbnailNavigation = document.querySelector('.thumbnail-navigation');
+
+            gridToggleBtn.addEventListener('click', function () {
+                if (thumbnailNavigation.style.display === 'none') {
+                    thumbnailNavigation.style.display = 'block';
+                    gridToggleBtn.classList.remove('grid-hidden');
+                    gridToggleBtn.setAttribute('title', 'Hide thumbnails');
+                } else {
+                    thumbnailNavigation.style.display = 'none';
+                    gridToggleBtn.classList.add('grid-hidden');
+                    gridToggleBtn.setAttribute('title', 'Show thumbnails');
+                }
+            });
+
+            // Touch swipe support
+            let touchStartX = 0;
+            let touchEndX = 0;
+
+            lightboxModal.addEventListener('touchstart', function (e) {
+                touchStartX = e.changedTouches[0].screenX;
+            });
+
+            lightboxModal.addEventListener('touchend', function (e) {
+                touchEndX = e.changedTouches[0].screenX;
+                const swipeDistance = touchEndX - touchStartX;
+                if (Math.abs(swipeDistance) > 50) {
+                    swipeDistance > 0 ? navigateImage('prev') : navigateImage('next');
+                }
+            });
+        }
+
+        // Lightbox functions
+        function openLightbox(index) {
+            currentImageIndex = index;
+            lightboxOpen = true;
+
+            updateLightboxImage();
+            createThumbnailStrip();
+            updateImageCounter();
+
+            document.querySelector('.thumbnail-navigation').style.display = 'none';
+            document.getElementById('gridToggle').classList.add('grid-hidden');
+
+            lightboxModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            lightboxOpen = false;
+            lightboxModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function navigateImage(direction) {
+            if (direction === 'prev') {
+                currentImageIndex = currentImageIndex === 0 ? filteredImages.length - 1 : currentImageIndex - 1;
+            } else {
+                currentImageIndex = currentImageIndex === filteredImages.length - 1 ? 0 : currentImageIndex + 1;
+            }
+
+            updateLightboxImage();
+            updateThumbnailActive();
+            updateImageCounter();
+        }
+
+        function updateLightboxImage() {
+            const currentImage = filteredImages[currentImageIndex];
+            lightboxMainImage.src = currentImage.imageUrl;
+            lightboxMainImage.alt = currentImage.title || 'Gallery image';
+        }
+
+        function createThumbnailStrip() {
+            thumbnailStrip.innerHTML = filteredImages.map((image, index) => `
+                <div class="thumbnail-item ${index === currentImageIndex ? 'active' : ''}" onclick="goToImage(${index})">
+                    <img src="${image.imageUrl}" alt="Thumbnail" class="thumbnail-img">
+                </div>
+            `).join('');
+        }
+
+        function goToImage(index) {
+            currentImageIndex = index;
+            updateLightboxImage();
+            updateThumbnailActive();
+            updateImageCounter();
+        }
+
+        function updateThumbnailActive() {
+            document.querySelectorAll('.thumbnail-item').forEach((thumb, index) => {
+                thumb.classList.toggle('active', index === currentImageIndex);
+            });
+        }
+
+        function updateImageCounter() {
+            imageCounter.textContent = `${currentImageIndex + 1} / ${filteredImages.length}`;
+        }
+    </script>
+</body>
+
+</html>
